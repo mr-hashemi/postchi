@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>{% block title %}This is an example page{% endblock %}</title>
+
+    
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/cropper.css">
+    {% block style %}
+    
+    <style>
+        .container {
+          max-width: 960px;
+        }
+
+        .lh-condensed { line-height: 1.25; }
+
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+    </style>
+    {% endblock %}
+    <!-- Custom styles for this template -->
+    <!-- <link href="form-validation.css" rel="stylesheet"> -->
+
+</head>
+
+<body class="bg-light">
+
+ 
+    {% block content %}
+    {% endblock %}
+
+
+    {% block script %}
+    <script>
+        function getMaskedCanvas(sourceCanvas, sourceImage, cropper) {
+          var canvas = document.createElement('canvas');
+          var context = canvas.getContext('2d');
+          var maskWidth = cropper.getData().width;
+          var maskHeight = cropper.getData().height;
+          var maskTop =  cropper.getData().y;
+          var maskLeft =  cropper.getData().x;
+          var imageWidth = cropper.getImageData().naturalWidth;
+          var imageHeight = cropper.getImageData().naturalHeight;
+          var imageLeft = cropper.getImageData().left;
+          var imageTop = cropper.getImageData().top;
+          var imageAspect = cropper.getImageData().aspectRatio;
+    
+          canvas.width = imageWidth;
+          canvas.height = imageHeight;
+    
+          // Debug
+          console.log('Image Width: ' + imageWidth  + ' Image Height: ' + imageHeight + ' Image Aspect Ratio: ' + imageAspect );
+          console.log('Image Left: ' + imageLeft  + ' Image Top: ' + imageTop );
+          console.log('Mask Width: ' + maskWidth + ' Mask Height: ' + maskHeight + ' Mask Left: ' + maskLeft + ' Mask Top: ' + maskTop);
+    
+          context.imageSmoothingEnabled = true;
+          context.drawImage(image, 0, 0, imageWidth, imageHeight);
+          context.fillRect(maskLeft, maskTop, maskWidth, maskHeight);
+          return canvas;
+        }
+    
+        window.addEventListener('DOMContentLoaded', function () {
+          var image = document.getElementById('image');
+          var button = document.getElementById('button');
+          var result = document.getElementById('result');
+          var croppable = false;
+          var cropper = new Cropper(image, {
+            viewMode: 0,
+            guides: true,
+            center: true,
+            highlight: true,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            ready: function () {
+              croppable = true;
+            },
+          });
+    
+          button.onclick = function () {
+            var croppedCanvas;
+            var maskedCanvas;
+            var maskedImage;
+    
+            if (!croppable) {
+              return;
+            }
+    
+            // Crop
+            croppedCanvas = cropper.getCroppedCanvas();
+    
+            // Mask
+            maskedCanvas = getMaskedCanvas(croppedCanvas, image, cropper);
+    
+            // Show
+            maskedImage = document.createElement('img');
+            maskedImage.src = maskedCanvas.toDataURL();
+            result.innerHTML = '';
+            result.appendChild(maskedImage);
+          };
+        });
+      </script>
+    {% endblock %}
+
+    {% block footer %}
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    {% endblock %}
+</body>

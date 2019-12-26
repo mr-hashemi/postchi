@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="py-5 text-center">
+        
+        <h2>Online Hashem Executer</h2>
+        <p class="lead">blah blah</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 order-md-2 mb-4">
+            <h4 class="mb-3">Output</h4>
+            <code>
+            {{ value }}
+        </code>
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h4 class="mb-3">Input</h4>
+            <form class="needs-validation" novalidate="" method="post">
+              
+                <div class="mb-3">
+                    <label for="email">Code</label>
+                    <textarea type="code" class="form-control" name="code">{{ code }}</textarea>
+
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                            <button type="submit" class="btn btn-primary">Execute</button>
+                    </div>
+                </div>
+      
+
+                <hr class="mb-4">
+               
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
