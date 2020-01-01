@@ -10,10 +10,11 @@ def index():
     if request.method == 'POST':
         tmp_fname = f"./tmp/code-{time.time()}.hashem"
         code = request.form['code']
+        version = request.form['version']
         with open(tmp_fname, 'w') as f:
             f.write(code)
         
-        with os.popen(f'./hashem {tmp_fname}') as res:
+        with os.popen(f'./bin/hashem-0.0{version} {tmp_fname}') as res:
             value = res.read()
         return render_template('index.html', code=code, value=value)
     return render_template('index.html')
