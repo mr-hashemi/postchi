@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.7
 import os 
 import time
 from flask import Flask, render_template, request
@@ -19,4 +20,4 @@ def index():
         
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8022, debug=True)
+    app.run(host='0.0.0.0')
